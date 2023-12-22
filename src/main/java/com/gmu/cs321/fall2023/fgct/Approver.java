@@ -7,9 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class Approver implements ActionListener{
+public class Approver implements ActionListener {
     private JFrame inbox = new JFrame("User Inbox");
-    private JTextArea cTextArea = new JTextArea("Your submission has been recieved! Here is a copy of your answers: \n\n Name: \n DOB: \n Address: \n Alien Number: \n Medical Condition: \n Phone Number: \n Condition Start Date: \n", 5, 10);
+    private JTextArea cTextArea = new JTextArea("Your submission has been received! Here is a copy of your answers: \n\n Name: \n DOB: \n Address: \n Alien Number: \n Medical Condition: \n Phone Number: \n Condition Start Date: \n", 5, 10);
     private JTextArea nTextArea = new JTextArea(10, 50);
     private JPanel inboxScr = new JPanel();
     private JLabel idLabel;
@@ -19,7 +19,14 @@ public class Approver implements ActionListener{
     private int currentFormId;
     private MedicalForm currentForm;
     private String nextStepsMessage;
+    // END: abpxx6d04wxr
 
+    // FILEPATH: /C:/Users/rdev/dev/cs321MedicalFormPipeLine/src/main/java/com/gmu/cs321/fall2023/fgct/Approver.java
+    // BEGIN: be15d9bcejpp
+    /**
+     * Sets up and shows Approver Screen
+     */
+  
     /**
      * Sets up and shows Approver Screen
      */

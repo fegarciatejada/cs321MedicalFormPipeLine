@@ -1,12 +1,14 @@
 //package gmu.cs321;
 package com.gmu.cs321.fall2023.fgct;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * The MedicalFormScreen represents a GUI application that allows users to fill out
+ * The MedicalFormScreen represents a GUI application that allows users to fill
+ * out
  * and manage a medical form related to infectious diseases.
  */
 public class MedicalFormScreen extends JFrame {
@@ -17,10 +19,11 @@ public class MedicalFormScreen extends JFrame {
     private final JComboBox<String> conditions = new JComboBox<>();
     private final JTextField phoneNumberField = new JTextField();
     private final JTextField conditionStartDateField = new JTextField();
+
     /**
      * Constructor for MedicalFormAndApprover.
      */
-    public MedicalFormScreen () {
+    public MedicalFormScreen() {
         setTitle("Medical Form");
         setSize(550, 450);
 
@@ -53,7 +56,7 @@ public class MedicalFormScreen extends JFrame {
         conditions.addItem("Measles");
         conditions.addItem("Hepatitis");
 
-        panel.add( conditions );
+        panel.add(conditions);
 
         JButton submitHit = createSubmitButton();
         panel.add(submitHit);
@@ -71,11 +74,13 @@ public class MedicalFormScreen extends JFrame {
 
         setVisible(true);
     }
+
     /**
      * Creates and displays a login dialog for user authentication.
      */
+
     private static void login() {
-        JDialog loginDialog = new JDialog((Frame)null, "Login", true);
+        JDialog loginDialog = new JDialog((Frame) null, "Login", true);
         loginDialog.setSize(350, 200);
         loginDialog.setLayout(new FlowLayout());
         loginDialog.setLocationRelativeTo(null);
@@ -99,17 +104,44 @@ public class MedicalFormScreen extends JFrame {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                loginDialog.setVisible(false);
-                loginDialog.dispose();
-                new MedicalFormScreen ();
+                String username = usernameField.getText();
+                if (username.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(loginDialog, "Please enter a username.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    return;
+                } else if (!username.equals("admin")) {
+                    JOptionPane.showMessageDialog(loginDialog, "Invalid username.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                
+                } else {
+                    //assume the username is correct
+                    // now check the password
+                    char[] password = passwordField.getPassword();
+                    if (password.length == 0) {
+                        JOptionPane.showMessageDialog(loginDialog, "Please enter a password.", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    } else if (!new String(password).equals("adminpass")) {
+                        JOptionPane.showMessageDialog(loginDialog, "Invalid password.", "Error",
+                                JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    
+                    loginDialog.setVisible(false);
+                    loginDialog.dispose();
+                    new MedicalFormScreen();
+                }
+
             }
         });
 
         loginDialog.setVisible(true);
     }
+
     /**
      * Creates and returns a submit button.
-     * @return  The submit button.
+     * 
+     * @return The submit button.
      */
     private JButton createSubmitButton() {
         JButton submitButton = new JButton("Submit Form");
@@ -118,8 +150,10 @@ public class MedicalFormScreen extends JFrame {
         });
         return submitButton;
     }
+
     /**
      * Creates and returns a delete button to reset the form fields.
+     * 
      * @return The delete button.
      */
     private JButton createDeleteButton() {
@@ -127,8 +161,10 @@ public class MedicalFormScreen extends JFrame {
         deleteButton.addActionListener(e -> resetFormFields());
         return deleteButton;
     }
+
     /**
      * Creates and returns a new form button.
+     * 
      * @return The new form button.
      */
     private JButton createNewFormButton() {
@@ -136,8 +172,10 @@ public class MedicalFormScreen extends JFrame {
         newFormButton.addActionListener(e -> resetFormFields());
         return newFormButton;
     }
+
     /**
      * Creates and returns a save button to save the form.
+     * 
      * @return The save button.
      */
     private JButton createSaveButton() {
@@ -148,6 +186,7 @@ public class MedicalFormScreen extends JFrame {
         });
         return saveButton;
     }
+
     /**
      * Resets the form to default.
      */
@@ -159,11 +198,12 @@ public class MedicalFormScreen extends JFrame {
         conditions.setSelectedIndex(0);
         System.out.println("Form has been reset.");
     }
+
     /**
      * Displays the data entered in the form in a new window.
      */
     private void showFormDataScreen() {
-        
+
         String dateRegex = "^\\d{2}\\d{2}\\d{4}$";
         String phoneRegex = "^\\d{10}$";
 
@@ -177,14 +217,16 @@ public class MedicalFormScreen extends JFrame {
             JOptionPane.showMessageDialog(this, "Please fill in all the fields.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         if (!dobTextField.getText().matches(dateRegex) || !conditionStartDateField.getText().matches(dateRegex)) {
-            JOptionPane.showMessageDialog(this, "Invalid Date Format. Please use ddmmyyyy", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Invalid Date Format. Please use ddmmyyyy", "Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         if (!phoneNumberField.getText().matches(phoneRegex)) {
-            JOptionPane.showMessageDialog(this, "Phone number must be 10 digits long", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Phone number must be 10 digits long", "Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
         StringBuilder formDataBuilder = new StringBuilder();
@@ -199,7 +241,10 @@ public class MedicalFormScreen extends JFrame {
         formDataBuilder.append("Condition Start Date: ").append(conditionStartDateField.getText()).append("<br/>");
         formDataBuilder.append("</body></html>");
 
-        MedicalForm.createNewForm(nameTextField.getText(), Integer.parseInt(dobTextField.getText()), addressTextField.getText(), conditions.getSelectedItem().toString(), Integer.parseInt(alienNumberTextField.getText()), Integer.parseInt(conditionStartDateField.getText()), Long.parseLong(phoneNumberField.getText()));
+        MedicalForm.createNewForm(nameTextField.getText(), Integer.parseInt(dobTextField.getText()),
+                addressTextField.getText(), conditions.getSelectedItem().toString(),
+                Integer.parseInt(alienNumberTextField.getText()), Integer.parseInt(conditionStartDateField.getText()),
+                Long.parseLong(phoneNumberField.getText()));
 
         String formData = formDataBuilder.toString();
 
@@ -212,6 +257,7 @@ public class MedicalFormScreen extends JFrame {
 
         formDataFrame.setVisible(true);
     }
+
     /**
      * Debugging purposes.
      */
@@ -225,8 +271,10 @@ public class MedicalFormScreen extends JFrame {
         System.out.println("Phone Numer: " + conditionStartDateField.getText());
 
     }
+
     /**
      * The main
+     * 
      * @param args Command line arguments
      */
     public static void main(String[] args) {
